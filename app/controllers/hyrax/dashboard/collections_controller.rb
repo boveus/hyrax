@@ -153,20 +153,20 @@ module Hyrax
         end
       end
 
-      def after_destroy(id)
+      def after_destroy(title:)
         respond_to do |format|
           format.html do
             redirect_to my_collections_path,
-                        notice: t('hyrax.dashboard.my.action.collection_delete_success', id: id)
+                        notice: t('hyrax.dashboard.my.action.collection_delete_success', title: title)
           end
           format.json { head :no_content, location: my_collections_path }
         end
       end
 
-      def after_destroy_error(id)
+      def after_destroy_error(id, title:)
         respond_to do |format|
           format.html do
-            flash[:notice] = t('hyrax.dashboard.my.action.collection_delete_fail', id: id)
+            flash[:notice] = t('hyrax.dashboard.my.action.collection_delete_fail', title: title)
             render :edit, status: :unprocessable_entity
           end
           format.json { render json: { id: id }, status: :unprocessable_entity, location: dashboard_collection_path(@collection) }
@@ -174,10 +174,11 @@ module Hyrax
       end
 
       def destroy
+        title = @collection.title.first
         if @collection.destroy
-          after_destroy(params[:id])
+          after_destroy(title: title)
         else
-          after_destroy_error(params[:id])
+          after_destroy_error(params[:id], title: title)
         end
       end
 
