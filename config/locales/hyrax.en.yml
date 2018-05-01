@@ -555,6 +555,9 @@ en:
       all:
         collections: All Collections
         works: All Works
+        you_own: you own in the repository
+        you_manage: you can manage in the repository
+        in_repo: in the repository
       authorize_proxies: Authorize Proxies
       breadcrumbs:
         admin: Dashboard
